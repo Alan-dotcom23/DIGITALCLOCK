@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reloj Digital</title>
+  <style>
+    /* Reset y centrado en pantalla */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #121212; /* Fondo oscuro */
+      font-family: 'Courier New', Courier, monospace; /* Fuente estilo consola/digital */
+    }
+
+    /* Contenedor del reloj */
+    .digital-clock {
+      background: #000000;
+      color: #00ffff; /* Color cian estilo LED */
+      padding: 30px 50px;
+      border-radius: 15px;
+      border: 2px solid #333;
+      box-shadow: 
+        0 0 30px rgba(0, 255, 255, 0.2), /* Resplandor exterior */
+        inset 0 0 15px rgba(0, 255, 255, 0.1); /* Resplandor interior */
+      display: flex;
+      align-items: baseline;
+      gap: 15px;
+    }
+
+    /* Estilo de los números */
+    .time {
+      font-size: 5rem;
+      font-weight: bold;
+      letter-spacing: 4px;
+      text-shadow: 0 0 15px rgba(0, 255, 255, 0.8); /* Efecto de luz en los números */
+    }
+
+    /* Estilo del indicador AM/PM */
+    .ampm {
+      font-size: 1.8rem;
+      color: #00aaaa; /* Un tono un poco más apagado para contrastar */
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="digital-clock">
+    <div class="time" id="time">00:00:00</div>
+    <div class="ampm" id="ampm">AM</div>
+  </div>
+
+  <script>
+    function updateDigitalClock() {
+      const now = new Date();
+      
+      let hours = now.getHours();
+      let minutes = now.getMinutes();
+      let seconds = now.getSeconds();
+      
+      // Determinar si es AM o PM
+      let ampm = hours >= 12 ? 'PM' : 'AM';
+
+      // Convertir al formato de 12 horas
+      hours = hours % 12;
+      hours = hours ? hours : 12; // Si la hora es 0, mostrar 12
+
+      // Añadir un cero a la izquierda si el número es menor a 10 (ej. 09 en vez de 9)
+      hours = hours < 10 ? '0' + hours : hours;
+      minutes = minutes < 10 ? '0' + minutes : minutes;
+      seconds = seconds < 10 ? '0' + seconds : seconds;
+
+      // Actualizar el HTML con los valores calculados
+      document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
+      document.getElementById('ampm').textContent = ampm;
+    }
+
+    // Inicializar el reloj inmediatamente para evitar el retraso de 1 segundo
+    updateDigitalClock();
+    
+    // Actualizar el reloj cada 1000 milisegundos (1 segundo)
+    setInterval(updateDigitalClock, 1000);
+  </script>
+
+</body>
+</html>
